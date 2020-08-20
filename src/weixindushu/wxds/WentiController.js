@@ -1,3 +1,5 @@
+let funs = require("./../functions.js")
+
 let WentiController = function ()
 {
     this.event_c = events.emitter()
@@ -18,6 +20,11 @@ WentiController.prototype.emit = function (event)
 {
     this.event_c.emit(event)
     return this
+}
+
+WentiController.prototype.clickAns = function (index)
+{
+    funs.clickAreaByUIObject(this.currentAns[index].ansBox)
 }
 
 WentiController.prototype.watchingHandler = function ()
@@ -57,7 +64,8 @@ WentiController.prototype.watchingHandler = function ()
                         continue
                     }
                     this.currentAns.push({
-                        ans: ansStr
+                        ans: ansStr,
+                        ansBox: allbox[i]
                     })
                 }
                 this.emit("problemShow")
