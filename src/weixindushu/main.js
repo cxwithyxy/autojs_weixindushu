@@ -3,14 +3,19 @@ auto()
 let funs = require("./functions.js")
 let WentiController = require("./wxds/WentiController.js")
 
+let wentiController = new WentiController()
 
 function main ()
 {
-    let allbox = funs.findInUIObjectWithTextMatches(depth(0).find()[0], /[\u4e00-\u9fa5]{1,}/)
-    for(let i = 0; i != allbox.length; i++)
+    console.log("微信读书自动化开始运行");
+    wentiController.on("problemShow", function ()
     {
-        console.log(allbox[i].text());
-    }
+        console.log(wentiController.currentWentiTitle)
+        console.log(wentiController.currentWenti)
+        console.log(wentiController.currentAns)
+    })
+    wentiController.watchStart()
+    wentiController.watchThreadJoin()
 }
 
 funs.runAfterPrepare(main)
