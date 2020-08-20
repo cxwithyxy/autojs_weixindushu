@@ -34,7 +34,7 @@ WentiController.prototype.watchingHandler = function ()
             sleep(86)
             continue
         }
-        if(allbox.length == 0)
+        if(allbox.length < 3 )
         {
             sleep(1e3)
             continue
@@ -43,7 +43,6 @@ WentiController.prototype.watchingHandler = function ()
         let wentiTitleStr = wentiTitleBox.text()
         if(wentiTitleStr.match(/题/))
         {
-            // console.log(wentiTitleStr);
             this.currentWentiTitle = wentiTitleStr
             if(this.lastestWentiTitle != this.currentWentiTitle)
             {
