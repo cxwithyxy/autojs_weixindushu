@@ -51,8 +51,13 @@ WentiController.prototype.watchingHandler = function ()
                 this.currentAns = []
                 for(let i = 0; i != allbox.length; i++ )
                 {
+                    let ansStr = allbox[i].text()
+                    if(ansStr.match(/你题答的也忒好了不是/))
+                    {
+                        continue
+                    }
                     this.currentAns.push({
-                        ans: allbox[i].text()
+                        ans: ansStr
                     })
                 }
                 this.emit("problemShow")
