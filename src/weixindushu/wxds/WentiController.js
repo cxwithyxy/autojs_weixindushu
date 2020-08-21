@@ -8,6 +8,11 @@ let WentiController = function ()
     this.lastestWentiTitle = ""
     this.currentWenti = ""
     this.currentAns = []
+    this.ansPicPathPreset = {
+        normal: "images/normal.png",
+        right: "images/right.png",
+        wrong: "images/wrong.png"
+    }
 }
 
 WentiController.prototype.on = function (event, callback)
@@ -25,6 +30,42 @@ WentiController.prototype.emit = function (event)
 WentiController.prototype.clickAns = function (index)
 {
     funs.clickAreaByUIObject(this.currentAns[index].ansBox)
+}
+
+WentiController.prototype.initAnsPostion = function ()
+{
+    let screenImage = captureScreen()
+    screenImage = images.clip(screenImage, 0, funs.getDeviceHeight() / 2, funs.getDeviceWidth(), funs.getDeviceHeight() / 2)
+    let ansPosition = {}
+    let self = this
+    let threadForNormalAns = threads.start(function ()
+    {
+        ansPosition["normal"] = self.getAnsPositionY(screenImage, self.ansPicPathPreset.normal)
+    })
+    let threadForRightAns = threads.start(function ()
+    {
+        ansPosition["right"] = self.getAnsPositionY(screenImage, self.ansPicPathPreset.right)
+    })
+    let threadForWrongAns = threads.start(function ()
+    {
+        ansPosition["wrong"] = self.getAnsPositionY(screenImage, self.ansPicPathPreset.wrong)
+    })
+    threadForNormalAns.join()
+    threadForRightAns.join()
+    threadForWrongAns.join()
+    return ansPosition
+
+}
+
+WentiController.prototype.getAnsPositionY = function (screenImage, ansPicPath)
+{
+    let ansPositionYList = []
+    let positions = images.matchTemplate(screenImage, images.read(ansPicPath))
+    positions.matches.forEach(function (v)
+    {
+        ansPositionYList.push(v.point.y)
+    })
+    return ansPositionYList
 }
 
 WentiController.prototype.watchingHandler = function ()
@@ -48,7 +89,7 @@ WentiController.prototype.watchingHandler = function ()
         }
         let wentiTitleBox = allbox.shift()
         let wentiTitleStr = wentiTitleBox.text()
-        if(wentiTitleStr.match(/题/))
+        if(/题/.test(wentiTitleStr))
         {
             this.currentWentiTitle = wentiTitleStr
             if(this.lastestWentiTitle != this.currentWentiTitle)
