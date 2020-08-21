@@ -32,6 +32,25 @@ WentiController.prototype.clickAns = function (index)
     funs.clickAreaByUIObject(this.currentAns[index].ansBox)
 }
 
+WentiController.prototype.getRightOrWrongAnsIndex = function ()
+{
+    let ansPosition = this.initAnsPostion()
+    let indexOfRightOrWrong = {}
+    ansPosition.forEach(function (v, index)
+    {
+        switch(v.type)
+        {
+            case "wrong":
+                indexOfRightOrWrong["wrong"] = index
+                break
+            case "right":
+                indexOfRightOrWrong["right"] = index
+                break
+        }
+    })
+    return indexOfRightOrWrong
+}
+
 WentiController.prototype.initAnsPostion = function ()
 {
     let screenImage = captureScreen()
