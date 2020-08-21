@@ -53,7 +53,23 @@ WentiController.prototype.initAnsPostion = function ()
     threadForNormalAns.join()
     threadForRightAns.join()
     threadForWrongAns.join()
-    return ansPosition
+    let ansPostionOneTensor = []
+    ansPosition["normal"].forEach(function (v)
+    {
+        ansPostionOneTensor.push({y:v, type: "normal"})
+    })
+    ansPosition["right"].forEach(function (v)
+    {
+        ansPostionOneTensor.push({y:v, type: "right"})
+    })
+    ansPosition["wrong"].forEach(function (v)
+    {
+        ansPostionOneTensor.push({y:v, type: "wrong"})
+    })
+    return ansPostionOneTensor.sort(function (a, b)
+    {
+        return a.y - b.y
+    })
 
 }
 
@@ -65,7 +81,10 @@ WentiController.prototype.getAnsPositionY = function (screenImage, ansPicPath)
     {
         ansPositionYList.push(v.point.y)
     })
-    return ansPositionYList
+    return ansPositionYList.sort(function (a, b)
+    {
+        return a - b
+    })
 }
 
 WentiController.prototype.watchingHandler = function ()
