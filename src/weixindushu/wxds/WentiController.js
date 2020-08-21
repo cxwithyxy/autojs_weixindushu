@@ -1,4 +1,5 @@
 let funs = require("./../functions.js")
+let WentiAnswerType = require("./WentiAnswerType.js")
 
 let WentiController = function ()
 {
@@ -13,11 +14,7 @@ let WentiController = function ()
         right: "images/right.png",
         wrong: "images/wrong.png"
     }
-    this.ansTypeDef = {
-        right: 1,
-        wrong: 2,
-        unknow: 3
-    }
+    this.ansTypeDef = WentiAnswerType
 }
 
 WentiController.prototype.on = function (event, callback)
