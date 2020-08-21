@@ -13,6 +13,11 @@ let WentiController = function ()
         right: "images/right.png",
         wrong: "images/wrong.png"
     }
+    this.ansTypeDef = {
+        right: 1,
+        wrong: 2,
+        unknow: 3
+    }
 }
 
 WentiController.prototype.on = function (event, callback)
@@ -30,6 +35,19 @@ WentiController.prototype.emit = function (event)
 WentiController.prototype.clickAns = function (index)
 {
     funs.clickAreaByUIObject(this.currentAns[index].ansBox)
+}
+
+WentiController.prototype.ansTypeidentify = function ()
+{
+    let indexOfRightOrWrong = this.getRightOrWrongAnsIndex()
+    if(typeof indexOfRightOrWrong.wrong != "undefined")
+    {
+        this.currentAns[indexOfRightOrWrong.wrong].type = this.ansTypeDef.wrong
+    }
+    if(typeof indexOfRightOrWrong.right != "undefined")
+    {
+        this.currentAns[indexOfRightOrWrong.right].type = this.ansTypeDef.right
+    }
 }
 
 WentiController.prototype.getRightOrWrongAnsIndex = function ()
@@ -144,7 +162,8 @@ WentiController.prototype.watchingHandler = function ()
                     }
                     this.currentAns.push({
                         ans: ansStr,
-                        ansBox: allbox[i]
+                        ansBox: allbox[i],
+                        type: this.ansTypeDef.unknow
                     })
                 }
                 this.emit("problemShow")
