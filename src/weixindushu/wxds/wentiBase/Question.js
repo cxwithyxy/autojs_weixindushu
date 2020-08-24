@@ -17,7 +17,7 @@ Question.prototype.toString = function ()
     txt += this.title + " A: "
     this.answers.forEach(function (v, index)
     {
-        txt += "" + (index + 1) + ":" + v.answerText + ":" + v.type + "; "
+        txt += "" + (index + 1) + ":" + v.toString() + "; "
     })
     txt += "]"
     return txt
