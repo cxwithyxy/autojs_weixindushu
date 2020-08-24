@@ -170,7 +170,11 @@ WentiController.prototype.watchingHandler = function ()
                         type: this.ansTypeDef.unknow
                     })
                 }
-                this.emit("problemShow")
+                let self = this
+                threads.start(function()
+                {
+                    self.emit("problemShow")
+                }) 
             }
             sleep(86)
         }
