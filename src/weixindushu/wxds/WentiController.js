@@ -1,5 +1,6 @@
 let funs = require("./../functions.js")
 let WentiAnswerType = require("./WentiAnswerType.js")
+let Question = require("./wentiBase/Question.js")
 
 let WentiController = function ()
 {
@@ -45,6 +46,12 @@ WentiController.prototype.ansTypeidentify = function ()
     {
         this.currentAns[indexOfRightOrWrong.right].type = this.ansTypeDef.right
     }
+    let question = new Question(this.currentWenti)
+    this.currentAns.forEach(function (v)
+    {
+        question.addAnswer(v.ans, v.type)
+    })
+    return question
 }
 
 WentiController.prototype.getRightOrWrongAnsIndex = function ()
