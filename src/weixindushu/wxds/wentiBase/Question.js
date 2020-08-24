@@ -3,7 +3,7 @@ let Answer = require("./Answer.js")
 let Question = function (title)
 {
     this.title = title,
-    this.answers  = []
+    this.answers = []
 }
 
 Question.prototype.addAnswer = function (word, type)
@@ -21,6 +21,28 @@ Question.prototype.toString = function ()
     })
     txt += "]"
     return txt
+}
+
+Question.prototype.toJson = function ()
+{
+    let questionJson = {}
+    questionJson["title"] = this.title
+    questionJson["answers"] = []
+    this.answers.forEach(function (v)
+    {
+        questionJson["answers"].push(v.toJson())
+    })
+    return questionJson
+}
+
+Question.loadJson = function (jsonData)
+{
+    let question = new Question(jsonData.title)
+    jsonData["answers"].forEach(function (v)
+    {
+        question.answers.push(Answer.loadJson(v))
+    })
+    return question
 }
 
 module.exports = Question

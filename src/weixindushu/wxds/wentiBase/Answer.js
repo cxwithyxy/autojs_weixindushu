@@ -25,4 +25,17 @@ Answer.prototype.toString = function ()
     return this.answerText + "(" + typeText + ")"
 }
 
+Answer.prototype.toJson = function ()
+{
+    return {
+        answerText: this.answerText,
+        type: this.type
+    }
+}
+
+Answer.loadJson = function(jsonData)
+{
+    return new Answer(jsonData.answerText, jsonData.type)
+}
+
 module.exports = Answer
