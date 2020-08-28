@@ -21,8 +21,20 @@ Answer.prototype.toString = function ()
             typeText = "未知"
             break
     }
-    
     return this.answerText + "(" + typeText + ")"
+}
+
+Answer.prototype.combine = function (answer)
+{
+    if(this.answerText == answer.answerText)
+    {
+        if(this.type == WentiAnswerType.unknow && answer.type != WentiAnswerType.unknow)
+        {
+            this.type = answer.type
+        }
+        return true
+    }
+    return false
 }
 
 Answer.prototype.toJson = function ()

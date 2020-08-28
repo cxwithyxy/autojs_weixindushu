@@ -35,6 +35,33 @@ Question.prototype.toJson = function ()
     return questionJson
 }
 
+Question.prototype.combine = function (question)
+{
+    if(this.title == question.title)
+    {
+        let newAnsList = []
+        for(;;)
+        {
+            if(this.answers.length == 0)
+            {
+                break
+            }
+            let ans1 = this.answers.shift()
+            let ans2 = this.answers.shift()
+            if(ans1 && !ans2)
+            {
+                newAnsList.push(ans1)
+                break
+            }
+            ans1.combine(ans2)
+            
+            newAnsList.push(ans1)
+        }
+        return true
+    }
+    return false
+}
+
 Question.loadJson = function (jsonData)
 {
     let question = new Question(jsonData.title)
